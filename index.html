@@ -3,45 +3,247 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CSAS Calculator</title>
+  <title>MDD Profit & Loss Estimator</title>
   <style>
-    body { font-family: sans-serif; padding: 24px; max-width: 480px; margin: auto; }
-    label { display: block; font-size: 14px; margin-bottom: 4px; color: #444; }
-    input { width: 100%; padding: 8px; margin-bottom: 16px; border: 1px solid #ccc;
-            border-radius: 6px; font-size: 15px; box-sizing: border-box; }
-    .result { font-size: 22px; font-weight: 600; margin-top: 16px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f0f4f8;
+      min-height: 100vh;
+      padding: 32px 16px;
+    }
+    .card {
+      background: #ffffff;
+      border-radius: 14px;
+      border: 1px solid #e2e8f0;
+      padding: 32px;
+      width: 100%;
+      max-width: 620px;
+      margin: 0 auto;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+    .header { margin-bottom: 24px; }
+    h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a202c;
+      margin-bottom: 4px;
+    }
+    .subtitle {
+      font-size: 13px;
+      color: #64748b;
+    }
+    .formula {
+      font-family: monospace;
+      font-size: 12px;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 7px 12px;
+      color: #475569;
+      margin-bottom: 28px;
+      display: inline-block;
+    }
+    .field-group { margin-bottom: 20px; }
+    .field-num {
+      font-size: 11px;
+      font-weight: 700;
+      color: #6366f1;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+    .field-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 3px;
+      line-height: 1.4;
+    }
+    .field-hint {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+    .input-wrap {
+      display: flex;
+      align-items: center;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: border-color 0.15s;
+    }
+    .input-wrap:focus-within { border-color: #6366f1; }
+    .input-prefix, .input-suffix {
+      padding: 10px 12px;
+      background: #f8fafc;
+      color: #64748b;
+      font-size: 14px;
+      font-weight: 500;
+      border: none;
+      white-space: nowrap;
+    }
+    .input-prefix { border-right: 1px solid #e2e8f0; }
+    .input-suffix { border-left: 1px solid #e2e8f0; }
+    input[type=number] {
+      flex: 1;
+      padding: 10px 12px;
+      border: none;
+      font-size: 15px;
+      color: #1a202c;
+      outline: none;
+      background: transparent;
+      min-width: 0;
+    }
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button { opacity: 0.4; }
+    .warn {
+      font-size: 12px;
+      color: #f59e0b;
+      margin-top: 5px;
+      display: none;
+    }
+    .divider { border: none; border-top: 1.5px solid #e2e8f0; margin: 28px 0; }
+    .result-box {
+      background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+      border-radius: 10px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .result-label {
+      font-size: 13px;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 4px;
+    }
+    .result-formula {
+      font-size: 11px;
+      color: rgba(255,255,255,0.55);
+      font-family: monospace;
+    }
+    .result-value {
+      font-size: 30px;
+      font-weight: 700;
+      color: #ffffff;
+      text-align: right;
+      white-space: nowrap;
+    }
+    .result-value.placeholder { opacity: 0.4; font-size: 22px; }
+    .note {
+      font-size: 11px;
+      color: #94a3b8;
+      margin-top: 14px;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
-  <h2>CASL Calculator</h2>
+  <div class="card">
+    <div class="header">
+      <h2>MDD Profit &amp; Loss Estimator</h2>
+      <p class="subtitle">Estimate the financial impact of cyber disruption on your business</p>
+    </div>
 
-  <label>A – [Your label]</label>
-  <input type="number" id="fA" placeholder="Enter A" oninput="calc()" />
+    <div class="formula">Result = ((A − B) / 365) × C × D + E</div>
 
-  <label>B – [Your label]</label>
-  <input type="number" id="fB" placeholder="Enter B" oninput="calc()" />
+    <!-- A -->
+    <div class="field-group">
+      <div class="field-num">Question 1 · Variable A</div>
+      <div class="field-label">Expected revenue for the next 12 months</div>
+      <div class="field-hint">Enter your total projected annual revenue</div>
+      <div class="input-wrap">
+        <span class="input-prefix">$</span>
+        <input type="number" id="fA" placeholder="e.g. 1,000,000" min="0" step="any" oninput="calc()" />
+        <span class="input-suffix">/ Year</span>
+      </div>
+    </div>
 
-  <label>C – [Your label]</label>
-  <input type="number" id="fC" placeholder="Enter C" step="any" oninput="calc()" />
+    <!-- B -->
+    <div class="field-group">
+      <div class="field-num">Question 2 · Variable B</div>
+      <div class="field-label">Total expected variable costs for the next 12 months</div>
+      <div class="field-hint">Include: sales discounts, raw materials, freight, commissions, etc. Exclude labor unless it varies with revenue.</div>
+      <div class="input-wrap">
+        <span class="input-prefix">$</span>
+        <input type="number" id="fB" placeholder="e.g. 200,000" min="0" step="any" oninput="calc()" />
+        <span class="input-suffix">/ Year</span>
+      </div>
+    </div>
 
-  <label>D – [Your label]</label>
-  <input type="number" id="fD" placeholder="Enter D" oninput="calc()" />
+    <!-- C -->
+    <div class="field-group">
+      <div class="field-num">Question 3 · Variable C</div>
+      <div class="field-label">Number of days your systems are expected to be cyber disrupted</div>
+      <div class="field-hint">Enter the estimated number of disrupted days</div>
+      <div class="input-wrap">
+        <input type="number" id="fC" placeholder="e.g. 5" min="0" step="1" oninput="calc()" style="padding-left:14px;" />
+        <span class="input-suffix">Days</span>
+      </div>
+    </div>
 
-  <label>E – [Your label]</label>
-  <input type="number" id="fE" placeholder="Enter E" oninput="calc()" />
+    <!-- D -->
+    <div class="field-group">
+      <div class="field-num">Question 4 · Variable D</div>
+      <div class="field-label">Estimated daily drop in revenue if systems are impacted</div>
+      <div class="field-hint">Enter as a decimal: <strong>1</strong> = 100% drop &nbsp;|&nbsp; <strong>0.5</strong> = 50% drop &nbsp;|&nbsp; <strong>0.3</strong> = 30% drop</div>
+      <div class="input-wrap">
+        <input type="number" id="fD" placeholder="e.g. 0.3" min="0" max="1" step="0.01" oninput="checkD(); calc();" style="padding-left:14px;" />
+        <span class="input-suffix">% / Day</span>
+      </div>
+      <div class="warn" id="warnD">⚠ Value should be between 0 and 1 (e.g. 0.5 for 50%)</div>
+    </div>
 
-  <div class="result" id="result">Result: —</div>
+    <!-- E -->
+    <div class="field-group">
+      <div class="field-num">Question 5 · Variable E</div>
+      <div class="field-label">Total additional costs to maintain revenue during interruption</div>
+      <div class="field-hint">Include: overtime, additional manpower, equipment rental, etc. Exclude cyber response costs covered by insurance.</div>
+      <div class="input-wrap">
+        <span class="input-prefix">$</span>
+        <input type="number" id="fE" placeholder="e.g. 1,000" min="0" step="any" oninput="calc()" />
+        <span class="input-suffix">/ Year</span>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="result-box">
+      <div>
+        <div class="result-label">Estimated Profit &amp; Loss Impact</div>
+        <div class="result-formula">((A − B) / 365) × C × D + E</div>
+      </div>
+      <div class="result-value placeholder" id="result">—</div>
+    </div>
+
+    <p class="note">Fill in all 5 fields above to see your estimated result</p>
+  </div>
 
   <script>
+    function checkD() {
+      const d = +document.getElementById('fD').value;
+      const warn = document.getElementById('warnD');
+      warn.style.display = (d > 1 || d < 0) ? 'block' : 'none';
+    }
+
     function calc() {
-      const A = +document.getElementById('fA').value;
-      const B = +document.getElementById('fB').value;
-      const C = +document.getElementById('fC').value;
-      const D = +document.getElementById('fD').value;
-      const E = +document.getElementById('fE').value;
-      const result = ((A - B) / 365) * C * D + E;
-      document.getElementById('result').textContent =
-        'Result: ' + result.toLocaleString(undefined, { maximumFractionDigits: 4 });
+      const a = document.getElementById('fA').value;
+      const b = document.getElementById('fB').value;
+      const c = document.getElementById('fC').value;
+      const d = document.getElementById('fD').value;
+      const e = document.getElementById('fE').value;
+      const el = document.getElementById('result');
+
+      if ([a, b, c, d, e].some(v => v === '')) {
+        el.textContent = '—';
+        el.classList.add('placeholder');
+        return;
+      }
+
+      const result = ((+a - +b) / 365) * +c * +d + +e;
+      el.textContent = '$' + result.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      el.classList.remove('placeholder');
     }
   </script>
 </body>
