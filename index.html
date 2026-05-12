@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MDD Profit & Loss Estimator</title>
+  <title>Profit &amp; Loss Estimator</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -22,29 +22,22 @@
       margin: 0 auto;
       box-shadow: 0 2px 8px rgba(0,0,0,0.07);
     }
-    .header { margin-bottom: 24px; }
-    h2 {
-      font-size: 20px;
+    .header {
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1.5px solid #e2e8f0;
+    }
+    .header h2 {
+      font-size: 22px;
       font-weight: 700;
       color: #1a202c;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
-    .subtitle {
-      font-size: 13px;
+    .header p {
+      font-size: 14px;
       color: #64748b;
     }
-    .formula {
-      font-family: monospace;
-      font-size: 12px;
-      background: #f1f5f9;
-      border: 1px solid #e2e8f0;
-      border-radius: 6px;
-      padding: 7px 12px;
-      color: #475569;
-      margin-bottom: 28px;
-      display: inline-block;
-    }
-    .field-group { margin-bottom: 20px; }
+    .field-group { margin-bottom: 24px; }
     .field-num {
       font-size: 11px;
       font-weight: 700;
@@ -105,32 +98,26 @@
       display: none;
     }
     .divider { border: none; border-top: 1.5px solid #e2e8f0; margin: 28px 0; }
-    .result-box {
-      background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
-      border-radius: 10px;
-      padding: 20px 24px;
+    .result-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      padding: 8px 0;
     }
     .result-label {
-      font-size: 13px;
-      color: rgba(255,255,255,0.8);
-      margin-bottom: 4px;
-    }
-    .result-formula {
-      font-size: 11px;
-      color: rgba(255,255,255,0.55);
-      font-family: monospace;
+      font-size: 15px;
+      font-weight: 600;
+      color: #1e293b;
     }
     .result-value {
-      font-size: 30px;
+      font-size: 28px;
       font-weight: 700;
-      color: #ffffff;
-      text-align: right;
-      white-space: nowrap;
+      color: #1a202c;
     }
-    .result-value.placeholder { opacity: 0.4; font-size: 22px; }
+    .result-value.placeholder {
+      font-size: 22px;
+      color: #cbd5e1;
+    }
     .note {
       font-size: 11px;
       color: #94a3b8;
@@ -141,12 +128,11 @@
 </head>
 <body>
   <div class="card">
-    <div class="header">
-      <h2>MDD Profit &amp; Loss Estimator</h2>
-      <p class="subtitle">Estimate the financial impact of cyber disruption on your business</p>
-    </div>
 
-    <div class="formula">Result = ((A − B) / 365) × C × D + E</div>
+    <div class="header">
+      <h2>Profit &amp; Loss Estimator</h2>
+      <p>Estimate the financial impact of cyber disruption on your business</p>
+    </div>
 
     <!-- A -->
     <div class="field-group">
@@ -155,7 +141,7 @@
       <div class="field-hint">Enter your total projected annual revenue</div>
       <div class="input-wrap">
         <span class="input-prefix">$</span>
-        <input type="number" id="fA" placeholder="e.g. 1,000,000" min="0" step="any" oninput="calc()" />
+        <input type="number" id="fA" placeholder="e.g. 1000000" min="0" step="any" oninput="calc()" />
         <span class="input-suffix">/ Year</span>
       </div>
     </div>
@@ -167,7 +153,7 @@
       <div class="field-hint">Include: sales discounts, raw materials, freight, commissions, etc. Exclude labor unless it varies with revenue.</div>
       <div class="input-wrap">
         <span class="input-prefix">$</span>
-        <input type="number" id="fB" placeholder="e.g. 200,000" min="0" step="any" oninput="calc()" />
+        <input type="number" id="fB" placeholder="e.g. 200000" min="0" step="any" oninput="calc()" />
         <span class="input-suffix">/ Year</span>
       </div>
     </div>
@@ -202,19 +188,16 @@
       <div class="field-hint">Include: overtime, additional manpower, equipment rental, etc. Exclude cyber response costs covered by insurance.</div>
       <div class="input-wrap">
         <span class="input-prefix">$</span>
-        <input type="number" id="fE" placeholder="e.g. 1,000" min="0" step="any" oninput="calc()" />
+        <input type="number" id="fE" placeholder="e.g. 1000" min="0" step="any" oninput="calc()" />
         <span class="input-suffix">/ Year</span>
       </div>
     </div>
 
     <hr class="divider" />
 
-    <div class="result-box">
-      <div>
-        <div class="result-label">Estimated Profit &amp; Loss Impact</div>
-        <div class="result-formula">((A − B) / 365) × C × D + E</div>
-      </div>
-      <div class="result-value placeholder" id="result">—</div>
+    <div class="result-row">
+      <span class="result-label">Estimated Result</span>
+      <span class="result-value placeholder" id="result">—</span>
     </div>
 
     <p class="note">Fill in all 5 fields above to see your estimated result</p>
