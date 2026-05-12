@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CSAS Calculator</title>
+  <style>
+    body { font-family: sans-serif; padding: 24px; max-width: 480px; margin: auto; }
+    label { display: block; font-size: 14px; margin-bottom: 4px; color: #444; }
+    input { width: 100%; padding: 8px; margin-bottom: 16px; border: 1px solid #ccc;
+            border-radius: 6px; font-size: 15px; box-sizing: border-box; }
+    .result { font-size: 22px; font-weight: 600; margin-top: 16px; }
+  </style>
+</head>
+<body>
+  <h2>CSAS Calculator</h2>
+
+  <label>A – [Your label]</label>
+  <input type="number" id="fA" placeholder="Enter A" oninput="calc()" />
+
+  <label>B – [Your label]</label>
+  <input type="number" id="fB" placeholder="Enter B" oninput="calc()" />
+
+  <label>C – [Your label]</label>
+  <input type="number" id="fC" placeholder="Enter C" step="any" oninput="calc()" />
+
+  <label>D – [Your label]</label>
+  <input type="number" id="fD" placeholder="Enter D" oninput="calc()" />
+
+  <label>E – [Your label]</label>
+  <input type="number" id="fE" placeholder="Enter E" oninput="calc()" />
+
+  <div class="result" id="result">Result: —</div>
+
+  <script>
+    function calc() {
+      const A = +document.getElementById('fA').value;
+      const B = +document.getElementById('fB').value;
+      const C = +document.getElementById('fC').value;
+      const D = +document.getElementById('fD').value;
+      const E = +document.getElementById('fE').value;
+      const result = ((A - B) / 365) * C * D + E;
+      document.getElementById('result').textContent =
+        'Result: ' + result.toLocaleString(undefined, { maximumFractionDigits: 4 });
+    }
+  </script>
+</body>
+</html>
